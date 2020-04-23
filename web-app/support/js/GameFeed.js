@@ -2,7 +2,12 @@ let GameFeed = class {
     constructor() {
         var url = window.location.href;
         var arr = url.split("/");
-        this.endpoint = "ws://" + arr[2] + "/game"
+
+        if (location.protocol !== 'https:') {
+            this.endpoint = "ws://" + arr[2] + "/game"
+        } else {
+            this.endpoint = "wss://" + arr[2] + "/game"
+        }
 
         this.playerName = '';
         this.id = '';

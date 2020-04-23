@@ -311,4 +311,4 @@ app.static('/', './web-app/')
 app.add_websocket_route(Stream(), "/game")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, protocol=WebSocketProtocol)
+    app.run(host="0.0.0.0", port=8080, protocol=WebSocketProtocol)
