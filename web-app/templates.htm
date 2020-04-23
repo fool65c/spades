@@ -1,0 +1,13 @@
+<script name="person" partial-name="person" type="text/x-handlebars-template">
+    <div class="person">
+        <div>{{phoneNumber}} - {{name}}</div>
+    </div>
+</script>
+
+<script name="phonebook" type="text/x-handlebars-template">
+    <div class="phonebook">
+        {{#each people}}
+            {{>person}}
+        {{/each}}
+    </div>
+</script>

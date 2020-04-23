@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="support/carousal.css">
+        <link rel="stylesheet" href="support/deck/deck.css">
+        
+        <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+        <script src="support/js/cookie.js"></script>
+        <title>Spades From Afar</title>
+
+        <style>
+            .modal-body {
+                max-height: calc(100vh - 200px);
+                overflow-y: auto;
+            }
+
+            .card-body {
+                padding: 0.5rem;
+            }
+
+            .player-card {
+                /* width: 80px; */
+                /* margin-left: auto; */
+                /* margin-right: auto; */
+                /* margin-top: 1px; */
+                /* margin-bottom: 1px; */
+                /* font-size: 1.25em; */
+                position: relative;
+                display: inline-block;
+            }
+
+            .player-cards {
+                width: 100%;
+                overflow-x: scroll;
+            }
+            
+            .♠️ {
+                color: black;
+                /* margin-top: -45px; */
+            }
+
+            .♣️ {
+                color: black;
+                /* margin-top: -45px; */
+            }
+
+            .♥️ {
+                color: red;
+                /* margin-top: -45px; */
+            }
+
+            .♦️ {
+                color: red;
+                /* margin-top: -45px; */
+            }
+
+            #game-stats-card {
+                /* width: 135%; */
+                /* margin-left: -25px; */
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <!-- Templates -->
+        <script id="game-list-template" type="text/x-handlebars-template">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ name }} 
+                        {{#if startGame}}
+                    <button type="button" class="btn btn-primary btn-sm" onclick="startGame('{{ id }}')">Start Game</button>
+                        {{/if}}
+                    </h5>
+                    <p class="card-text">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Team 1</th>
+                                    <th scope="col">Team 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td onclick="joinGame('{{ id }}' , 'team1', '{{ team1.[0].name }}')">{{ team1.[0].name }}</td>
+                                    <td onclick="joinGame('{{ id }}' , 'team2', '{{ team2.[0].name }}')">{{ team2.[0].name }}</td>
+                                </tr>
+                                <tr>
+                                    <td onclick="joinGame('{{ id }}' , 'team1', '{{ team1.[1].name }}')">{{ team1.[1].name }}</td>
+                                    <td onclick="joinGame('{{ id }}' , 'team2', '{{ team2.[1].name }}')">{{ team2.[1].name }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
+            </div>
+        </script>
+
+        <!-- Player cards -->
+        <script id="card-template" type="text/x-handlebars-template">
+            <div
+                id="{{ suit }}{{ value }}"
+                onclick="playCard('{{ suit }}','{{ value }}')" 
+                
+                class="player-card {{ suit }} {{ suit }}{{ value }}">
+                <!-- class="btn btn-light btn-sm player-card {{ suit }}"> -->
+                <!-- {{ suit }} {{ value }} -->
+            </div>
+        </script>
+
+        <!-- Round stats -->
+        <script id="round-stats-template" type="text/x-handlebars-template">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">{{ shortName.team1 }}</th>
+                        <th scope="col">{{ shortName.team2 }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bid</td>
+                        <td>{{ bids.team1 }}</td>
+                        <td>{{ bids.team2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Won</td>
+                        <td>{{ wins.team1 }}</td>
+                        <td>{{ wins.team2 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </script>
+
+        <script id="game-stats-template" type="text/x-handlebars-template">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">{{ score.shortName.team1 }}</th>
+                        <th scope="col">{{ score.shortName.team2 }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each score.rounds}}
+                    <tr>
+                        <td>Round {{inc @index }}</td>
+                        <td>{{this.team1.score}}</td>
+                        <td>{{this.team2.score}}</td>
+                    </tr>
+                    {{/each}}
+                    <tr>
+                        <td>bags</td>
+                        <td>{{ score.overall.team1.bags }}</td>
+                        <td>{{ score.overall.team2.bags }}</td>
+                        </tr>
+                    <tr>
+                        <td>total</td>
+                        <td>{{ score.overall.team1.score }}</td>
+                        <td>{{ score.overall.team2.score }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </script>
+
+        <!-- Active Hand -->
+        <script id="active-hand-template" type="text/x-handlebars-template">
+            <table class="table table-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Player</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each handData}}
+                    <tr>
+                        <td>{{@key}}</td>
+                        <td><div class="{{ card this }}"></div></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </script>
+
+        <!-- Hand Results -->
+        <script id="hand-results-template" type="text/x-handlebars-template">
+            <h5 class="card-title">Winner: {{ winner.name }} <button onclick="nextHand()" type="button" class="btn btn-outline-dark btn-sm">Continue</button></h5>
+            <p  class="card-text hands-stats">
+                <table class="table table-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Player</th>
+                            <th scope="col">Card</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each hand}}
+                        <tr>
+                            <td>{{@key}}</td>
+                            <td><div class="{{ card this }}"></div></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </p>
+        </script>
+
+    <!-- Player Modal -->
+    <div class="modal fade" id="playerSignin" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="playerSigninLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="playerSigninLabel">Welcome To Spades</h5>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Player Name</span>
+                    </div>
+                    <input type="text" class="form-control player-name" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary player-create">Continue</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- Game Modal -->
+    <div class="modal fade" id="SelectGame" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="selectGameLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectGameLabel">Game Center</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Create Game</span>
+                        </div>
+                        <input type="text" class="form-control game-name-input" placeholder="game name" aria-label="game name" aria-describedby="button-create-game">
+                        <div class="input-group-append">
+                        <button class="btn btn-outline-secondary game-create" type="button" id="button-create-game">Create</button>
+                        </div>
+                    </div>
+
+                    <h2>Active Games <span id="active-game-count" class="badge badge-secondary">0</span></h2>
+                    <div class="accordion" id="active-games"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Winner Modal -->
+    <div class="modal fade" id="winner" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="selectGameLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="selectGameLabel">Winner</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="winningTeam"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div id="player-bid-card" class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Enter Bid</h5>
+                        <p class="card-text">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="bid-addon">Bid</span>
+                                </div>
+                                <input id="player-bid" type="text" class="form-control" aria-label="bid" aria-describedby="bid-addon">
+                            </div>
+                        </p>
+                        <a href="#" onclick="placeBid()" class="btn btn-primary">Place Bid</a>
+                    </div>
+                </div>
+
+                <div id="hand-card" class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Current Hand</h5>
+                        <p id="hands-stats" class="card-text hands-stats"></p>
+                    </div>
+                </div>
+
+                <div id="hand-results" class="card" style="width: 100%;">
+                    <div id="hands-results-detail" class="card-body"></div>
+                </div>
+            </div>
+            <div class="col-6">
+                <!-- game stats -->
+                <div id="game-stats-card" class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Game Stats</h5>
+                        <p id="game-stats" class="card-text game-stats"></p>
+                    </div>
+                </div>
+
+                <!-- round stats -->
+                <div id="round-stats-card" class="card" style="width: 100%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Round Stats</h5>
+                        <p id="round-stats" class="card-text round-stats"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=row>
+            <div class="col-12">
+                <span class="badge badge-secondary player-card">Cards</span>
+                <div class="cards player-cards"></div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        let GameFeed = class {
+            constructor() {
+                var url = window.location.href;
+                var arr = url.split("/");
+                var endpoint = "ws://" + arr[2] + "/game"
+
+                this.playerName = '';
+                this.id = '';
+                this.gameId = '';
+                let that = this;
+    
+                this.webSocket = new WebSocket(endpoint);
+                this.webSocket.onopen = function(event) {
+                    that.onOpen(that, event);
+                }
+                this.webSocket.onmessage = function(event) {
+                    that.onMessage(that, event);
+                }
+
+                this.callbacks = {}
+            }
+
+            onOpen(gameFeed, event) {
+                console.log("ws connection open", event);
+            
+                let playerName = getCookie("playerName");
+                let playerId = getCookie("playerId");
+                console.log('rejoin', playerName, playerId)
+                if (playerName == '' && playerId == '') {
+                    console.log('start over')
+                    gameFeed.send("register-player");
+                    $('#playerSignin').modal('show')
+                } else {
+                    $('#playerSignin').modal('hide');
+                    gameFeed.playerName = playerName;
+                    gameFeed.id = playerId;
+                    gameFeed.send('player-rejoin', playerName)
+                }
+            }
+
+            onMessage(gameFeed, event) {
+                console.log("gameFeed.onMessage:", event.data)
+                let data = JSON.parse(event.data)
+                if ('type' in data && data.type in gameFeed.callbacks) {
+                    this.callbacks[data.type](data)
+                } else {
+                    console.log("unknown message", data)
+                }
+            }
+
+            send(type, message) {
+                console.log(type, message)
+                this.webSocket.send(JSON.stringify({
+                    type: type,
+                    id: this.id,
+                    game_id: this.gameId,
+                    message: message
+                }))
+            }
+
+            register(type, callback) {
+                this.callbacks[type] = callback;
+            }
+        }
+
+        Handlebars.registerHelper("inc", function(value, options) {
+            return parseInt(value) + 1;
+        });
+
+        Handlebars.registerHelper("card", function(value, options) {
+            return value.replace(/ /g, '');
+        });
+
+
+
+        gameFeed = new GameFeed();
+        // let playerName = "";
+
+        function joinGame(id, team, name) {
+            if (name != 'Open') {
+                return;
+            }
+            gameFeed.gameId = id;
+            gameFeed.send('join-game', {
+                team: team
+            });
+        }
+
+        function startGame(game_id) {
+            if (game_id != gameFeed.gameId) {
+                console.log("you are not apart of this game")
+            } else {
+                gameFeed.send('start-game', game_id)
+                $('#SelectGame').modal('hide');
+            }
+        }
+
+        function placeBid() {
+            gameFeed.send('record-player-bid', $('#player-bid')[0].value)
+            $('#player-bid-card').hide()
+        }
+
+        function playCard(suit, value) {
+            console.log($('#'+ suit + value))
+            // return
+            gameFeed.send('play-card', {
+                suit: suit,
+                value: value
+            })
+        }
+
+        function nextHand() {
+            $('#hand-results').hide()
+            gameFeed.send('start-next-hand')
+        }
+
+        gameFeed.register('winner', function(data){
+            $('#winner').modal.show()
+            $('#winningTeam').html(data.winner)
+        })
+
+        gameFeed.register('set-game-id', function(data) {
+            gameFeed.gameId = data.gameId;
+        });
+        
+        gameFeed.register('hand-result', function(data){
+            $('#hand-card').hide()
+            $('#hand-results').show()
+            let handResultsTemplate = Handlebars.compile($('#hand-results-template').html())
+            $('#hands-results-detail').html(handResultsTemplate(data.data));
+        })
+        
+        gameFeed.register('active-hand', function(data){
+            $('#hand-card').show()
+            $('#hand-results').hide()
+            let activeHandTemplate = Handlebars.compile($('#active-hand-template').html())
+            $('#hands-stats').html(activeHandTemplate({handData: data.data}));
+        })
+
+        gameFeed.register('game-started', function(data){
+            $('#SelectGame').modal('hide');
+            gameFeed.activeGame = true;
+        });
+
+        gameFeed.register('request-player-bid', function(data) {
+            $('#player-bid-card').show()
+        });
+
+        gameFeed.register('update-round-stats', function(data){
+            $('#round-stats-card').show()
+            let roundStatsTemplate = Handlebars.compile($('#round-stats-template').html())
+            $('#round-stats').html(roundStatsTemplate(data.stats));
+        })
+
+        gameFeed.register('update-player-id', function(data){
+            gameFeed.id = data.id;
+            setCookie('playerId', gameFeed.id, 30)
+        });
+
+        gameFeed.register('avail-games', function(data){
+            if (gameFeed.activeGame == true) {
+                return
+            }
+            $('#playerSignin').modal('hide');
+            $('#SelectGame').modal('show');
+            $('#active-game-count').text(data.data.length)
+            $('#active-games').html('');
+            let gameListTemplate = Handlebars.compile($('#game-list-template').html())
+            
+            data.data.forEach(function(game) {
+                if (game.team1.length == 2 && game.team2.length == 2) {
+                    game.startGame = true;
+                } else {
+                    game.startGame = false;
+                }
+                while (game.team1.length < 2) {
+                    game.team1.push({name: 'Open'})
+                }
+                while (game.team2.length < 2) {
+                    game.team2.push({name: 'Open'})
+                }
+                $('#active-games').append(gameListTemplate(game))
+            });
+        });
+
+        gameFeed.register('player-cards', function(data){
+            // $('#SelectGame').modal('show');
+            let cardTemplate = Handlebars.compile($('#card-template').html())
+            $('.cards').html('')
+            data.cards.forEach( card =>
+                $('.cards').append(cardTemplate(card))
+            );
+            
+            cardTemplate = Handlebars.compile($('#scroll-card-link-template').html())
+            $('.slider').html('')
+            data.cards.forEach( card =>
+                $('.slider').append(cardTemplate(card))
+            );
+            $('.slider').append('<div class="slides"></div>')
+
+            cardTemplate = Handlebars.compile($('#scroll-card-template').html())
+            data.cards.forEach( card =>
+                $('.slides').append(cardTemplate(card))
+            );
+            
+        });
+
+        gameFeed.register('score-update', function(data){
+            $('#game-stats-card').show()
+            let gameStatsTemplate = Handlebars.compile($('#game-stats-template').html())
+            $('#game-stats').html(gameStatsTemplate({score: data.score}));
+        });
+
+        gameFeed.register('start-new-round', function(data){
+            $('#hand-card').hide()
+            $('#hand-results').hide()
+        })
+
+        $(function () {
+            $('#player-bid-card').hide()
+            $('#round-stats-card').hide()
+            $('#hand-card').hide()
+            $('#hand-results').hide()
+            $('#game-stats-card').hide()
+
+            $('.player-name').keyup(function(event){
+                    gameFeed.playerName = event.target.value
+                    setCookie('playerName', gameFeed.playerName, 30)
+                });
+            $('.player-create').click(function(event){
+                console.log('Player created');
+                gameFeed.send('create-player', {
+                    name: gameFeed.playerName,
+                    id: gameFeed.id
+                });
+                $('#playerSignin').modal('hide');
+                $('#SelectGame').modal('show');
+            });    
+
+            $('.game-create').click(function(event){
+                gameFeed.send(
+                    'create-game',
+                    $('.game-name-input')[0].value
+                    );
+            });
+        })
+    </script>
+  </body>
+</html>
