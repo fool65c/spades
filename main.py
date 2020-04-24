@@ -14,7 +14,7 @@ from game.player import Player
 from game.gameplay import Game
 from game.deck import Card
 
-app = Sanic()
+app = Sanic(name="Spades")
 
 class Stream:
     __name__ = "game"
@@ -307,8 +307,13 @@ class Stream:
             
 
 app.static('/', './web-app/index.html')
-app.static('/', './web-app/')
+app.static('/web-app/', './web-app/')
 app.add_websocket_route(Stream(), "/game")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, protocol=WebSocketProtocol)
+    port = os.getenv('PORT')
+    if port:
+        app.run(host="0.0.0.0", port=port, protocol=WebSocketProtocol)
+    else:
+        app.run(host="0.0.0.0", port=8080, protocol=WebSocketProtocol)
+    

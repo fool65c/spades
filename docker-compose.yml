@@ -1,0 +1,6 @@
+version: '2.0'
+services:
+  spades:
+    build: .
+    ports:
+    - "6565:8080"

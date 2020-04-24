@@ -2,7 +2,16 @@ runtime: python37
 
 entrypoint: python main.py
 
+network:
+  session_affinity: true
+
 handlers:
+- url: /index\.html
+  static_files: web-app/index.html
+  upload: web-app/index\.html
+
+- url: /web-app
+  static_dir: web-app
   # This handler routes all requests not caught above to your main app. It is
   # required when static routes are defined, but can be omitted (along with
   # the entire handlers section) when there are no static files defined.
