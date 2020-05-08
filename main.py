@@ -1,13 +1,14 @@
 import os
 import sys
 import uuid
-import json as JSON
 import asyncio 
+import sqlite3
+import json as JSON
 
 from typing import List, Dict
 
 from sanic import Sanic
-from sanic.response import json
+from sanic.response import json, text
 from sanic.websocket import WebSocketProtocol
 
 from game.player import Player
@@ -52,8 +53,10 @@ class Stream:
             print('creating new player eventhough they are joining')
             self.players[p_id] = Player(p_id, name, ws)
 
+        print('searching for games player might be in')
         for g in self.games.values():
             if p_id in [p.id for p in g.players]:
+                print('player found in game')
                 if g.in_progress and not g.winner:
                     print('player was in an inprogress game, rejoining')
                     await self.players[p_id].ws.send(JSON.dumps({
@@ -61,17 +64,29 @@ class Stream:
                         'gameId': g.id
                     }))
 
+                    print('reconnecting player')
                     g.reconnect_player(self.players[p_id])
+                    print('sending team updates')
                     await self.__send_team_updates(g.id)
+                    print('sending player cards')
                     await self.__update_player_cards(self.players[p_id])
+                    print('sending score updates')
                     await self.__send_score_updates(g.id)
+                    print('sending round updates')
                     await self.__update_round_stats(g.id)
+                    print('getting current bidder')
                     current_bidder = self.games[g.id].current_round.current_bidder
-                    if current_bidder and current_bidder.id == p_id:
-                        await self.__notify_next_bidder(g.id)
+                    print('getting game state, sending them updates')
+                    if current_bidder:
+                        print("game is in the bid process")
+                        if current_bidder.id == p_id:
+                            print('requesting player bid')
+                            await self.__notify_next_bidder(g.id)
                     elif self.games[g.id].current_round.current_hand.winner:
+                        print('notify hand results')
                         await self.__notify_hand_result(g.id)
                     else:
+                        print('notify active hand')
                         await self.__notify_active_hand(g.id)
                     return
                 elif not g.in_progress:
@@ -173,6 +188,8 @@ class Stream:
             
         await self.__update_player_cards(player)
         if self.games[g_id].winner:
+            await self.__update_round_stats(g_id)
+            await self.__send_score_updates(g_id)
             await self.__notify_players_in_game(
                 g_id,
                 {
@@ -251,6 +268,7 @@ class Stream:
                     print(f'count not contact {p.name}')
 
     async def type_router(self, data, ws):
+        print("ROUTER")
         dt = str(data['type'])
         p_id = data['id']
         g_id = data['game_id']
@@ -308,10 +326,12 @@ class Stream:
 
 app.static('/', './web-app/index.html')
 app.static('/web-app/', './web-app/')
-app.add_websocket_route(Stream(), "/game")
+app.add_websocket_route(Stream(), "/updates")
 
 if __name__ == "__main__":
     port = os.getenv('PORT')
+    # port = None
+    print("Starting Spades App")
     if port:
         app.run(host="0.0.0.0", port=port, protocol=WebSocketProtocol)
     else:

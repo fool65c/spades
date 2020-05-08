@@ -18,60 +18,60 @@
     /* margin-top: -45px; */
 }
 
-.card-blank { height:74px; width: 55px; text-align: center;}
+.card-blank {max-height: 74px; max-width: 55px;  height:calc(100vw / 7 * 1.2); width: calc(100vw / 8); text-align: center;}
 
-.♣️2 { background: url(/web-app/support/deck/clubs.2.svg); height: 74px; width: 55px;}
-.♣️3 { background: url(/web-app/support/deck/clubs.3.svg); height: 74px; width: 55px;}
-.♣️4 { background: url(/web-app/support/deck/clubs.4.svg); height: 74px; width: 55px;}
-.♣️5 { background: url(/web-app/support/deck/clubs.5.svg); height: 74px; width: 55px;}
-.♣️6 { background: url(/web-app/support/deck/clubs.6.svg); height: 74px; width: 55px;}
-.♣️7 { background: url(/web-app/support/deck/clubs.7.svg); height: 74px; width: 55px;}
-.♣️8 { background: url(/web-app/support/deck/clubs.8.svg); height: 74px; width: 55px;}
-.♣️9 { background: url(/web-app/support/deck/clubs.9.svg); height: 74px; width: 55px;}
-.♣️10 { background: url(/web-app/support/deck/clubs.10.svg); height: 74px; width: 55px;}
-.♣️A { background: url(/web-app/support/deck/clubs.Ace.svg); height: 74px; width: 55px;}
-.♣️K { background: url(/web-app/support/deck/clubs.King.svg); height: 74px; width: 55px;}
-.♣️Q { background: url(/web-app/support/deck/clubs.Queen.svg); height: 74px; width: 55px;}
-.♣️J { background: url(/web-app/support/deck/clubs.Jack.svg); height: 74px; width: 55px;}
-.♦️2 { background: url(/web-app/support/deck/diamonds.2.svg); height: 74px; width: 55px;}
-.♦️3 { background: url(/web-app/support/deck/diamonds.3.svg); height: 74px; width: 55px;}
-.♦️4 { background: url(/web-app/support/deck/diamonds.4.svg); height: 74px; width: 55px;}
-.♦️5 { background: url(/web-app/support/deck/diamonds.5.svg); height: 74px; width: 55px;}
-.♦️6 { background: url(/web-app/support/deck/diamonds.6.svg); height: 74px; width: 55px;}
-.♦️7 { background: url(/web-app/support/deck/diamonds.7.svg); height: 74px; width: 55px;}
-.♦️8 { background: url(/web-app/support/deck/diamonds.8.svg); height: 74px; width: 55px;}
-.♦️9 { background: url(/web-app/support/deck/diamonds.9.svg); height: 74px; width: 55px;}
-.♦️10 { background: url(/web-app/support/deck/diamonds.10.svg); height: 74px; width: 55px;}
-.♦️A { background: url(/web-app/support/deck/diamonds.Ace.svg); height: 74px; width: 55px;}
-.♦️K { background: url(/web-app/support/deck/diamonds.King.svg); height: 74px; width: 55px;}
-.♦️Q { background: url(/web-app/support/deck/diamonds.Queen.svg); height: 74px; width: 55px;}
-.♦️J { background: url(/web-app/support/deck/diamonds.Jack.svg); height: 74px; width: 55px;}
-.♥️2 { background: url(/web-app/support/deck/hearts.2.svg); height: 74px; width: 55px;}
-.♥️3 { background: url(/web-app/support/deck/hearts.3.svg); height: 74px; width: 55px;}
-.♥️4 { background: url(/web-app/support/deck/hearts.4.svg); height: 74px; width: 55px;}
-.♥️5 { background: url(/web-app/support/deck/hearts.5.svg); height: 74px; width: 55px;}
-.♥️6 { background: url(/web-app/support/deck/hearts.6.svg); height: 74px; width: 55px;}
-.♥️7 { background: url(/web-app/support/deck/hearts.7.svg); height: 74px; width: 55px;}
-.♥️8 { background: url(/web-app/support/deck/hearts.8.svg); height: 74px; width: 55px;}
-.♥️9 { background: url(/web-app/support/deck/hearts.9.svg); height: 74px; width: 55px;}
-.♥️10 { background: url(/web-app/support/deck/hearts.10.svg); height: 74px; width: 55px;}
-.♥️A { background: url(/web-app/support/deck/hearts.Ace.svg); height: 74px; width: 55px;}
-.♥️K { background: url(/web-app/support/deck/hearts.King.svg); height: 74px; width: 55px;}
-.♥️Q { background: url(/web-app/support/deck/hearts.Queen.svg); height: 74px; width: 55px;}
-.♥️J { background: url(/web-app/support/deck/hearts.Jack.svg); height: 74px; width: 55px;}
-.♠️2 { background: url(/web-app/support/deck/spades.2.svg); height: 74px; width: 55px;}
-.♠️3 { background: url(/web-app/support/deck/spades.3.svg); height: 74px; width: 55px;}
-.♠️4 { background: url(/web-app/support/deck/spades.4.svg); height: 74px; width: 55px;}
-.♠️5 { background: url(/web-app/support/deck/spades.5.svg); height: 74px; width: 55px;}
-.♠️6 { background: url(/web-app/support/deck/spades.6.svg); height: 74px; width: 55px;}
-.♠️7 { background: url(/web-app/support/deck/spades.7.svg); height: 74px; width: 55px;}
-.♠️8 { background: url(/web-app/support/deck/spades.8.svg); height: 74px; width: 55px;}
-.♠️9 { background: url(/web-app/support/deck/spades.9.svg); height: 74px; width: 55px;}
-.♠️10 { background: url(/web-app/support/deck/spades.10.svg); height: 74px; width: 55px;}
-.♠️A { background: url(/web-app/support/deck/spades.Ace.svg); height: 74px; width: 55px;}
-.♠️K { background: url(/web-app/support/deck/spades.King.svg); height: 74px; width: 55px;}
-.♠️Q { background: url(/web-app/support/deck/spades.Queen.svg); height: 74px; width: 55px;}
-.♠️J { background: url(/web-app/support/deck/spades.Jack.svg); height: 74px; width: 55px;}
+.♣️2 { background: url(/web-app/support/deck/clubs.2.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️3 { background: url(/web-app/support/deck/clubs.3.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️4 { background: url(/web-app/support/deck/clubs.4.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️5 { background: url(/web-app/support/deck/clubs.5.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️6 { background: url(/web-app/support/deck/clubs.6.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️7 { background: url(/web-app/support/deck/clubs.7.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️8 { background: url(/web-app/support/deck/clubs.8.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️9 { background: url(/web-app/support/deck/clubs.9.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️10 { background: url(/web-app/support/deck/clubs.10.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️A { background: url(/web-app/support/deck/clubs.Ace.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️K { background: url(/web-app/support/deck/clubs.King.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️Q { background: url(/web-app/support/deck/clubs.Queen.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♣️J { background: url(/web-app/support/deck/clubs.Jack.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️2 { background: url(/web-app/support/deck/diamonds.2.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️3 { background: url(/web-app/support/deck/diamonds.3.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️4 { background: url(/web-app/support/deck/diamonds.4.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️5 { background: url(/web-app/support/deck/diamonds.5.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️6 { background: url(/web-app/support/deck/diamonds.6.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️7 { background: url(/web-app/support/deck/diamonds.7.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️8 { background: url(/web-app/support/deck/diamonds.8.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️9 { background: url(/web-app/support/deck/diamonds.9.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️10 { background: url(/web-app/support/deck/diamonds.10.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️A { background: url(/web-app/support/deck/diamonds.Ace.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️K { background: url(/web-app/support/deck/diamonds.King.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️Q { background: url(/web-app/support/deck/diamonds.Queen.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♦️J { background: url(/web-app/support/deck/diamonds.Jack.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️2 { background: url(/web-app/support/deck/hearts.2.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️3 { background: url(/web-app/support/deck/hearts.3.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️4 { background: url(/web-app/support/deck/hearts.4.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️5 { background: url(/web-app/support/deck/hearts.5.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️6 { background: url(/web-app/support/deck/hearts.6.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️7 { background: url(/web-app/support/deck/hearts.7.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️8 { background: url(/web-app/support/deck/hearts.8.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️9 { background: url(/web-app/support/deck/hearts.9.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️10 { background: url(/web-app/support/deck/hearts.10.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️A { background: url(/web-app/support/deck/hearts.Ace.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️K { background: url(/web-app/support/deck/hearts.King.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️Q { background: url(/web-app/support/deck/hearts.Queen.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♥️J { background: url(/web-app/support/deck/hearts.Jack.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️2 { background: url(/web-app/support/deck/spades.2.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️3 { background: url(/web-app/support/deck/spades.3.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️4 { background: url(/web-app/support/deck/spades.4.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️5 { background: url(/web-app/support/deck/spades.5.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️6 { background: url(/web-app/support/deck/spades.6.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️7 { background: url(/web-app/support/deck/spades.7.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️8 { background: url(/web-app/support/deck/spades.8.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️9 { background: url(/web-app/support/deck/spades.9.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️10 { background: url(/web-app/support/deck/spades.10.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️A { background: url(/web-app/support/deck/spades.Ace.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️K { background: url(/web-app/support/deck/spades.King.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️Q { background: url(/web-app/support/deck/spades.Queen.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
+.♠️J { background: url(/web-app/support/deck/spades.Jack.svg); max-height: 74px; max-width: 55px; height: calc(100vw / 7 * 1.2); width: calc(100vw / 8);}
 
 .♣️2-small { background: url(/web-app/support/deck/clubs.2.svg); height: 24px; width: 18px;}
 .♣️3-small { background: url(/web-app/support/deck/clubs.3.svg); height: 24px; width: 18px;}

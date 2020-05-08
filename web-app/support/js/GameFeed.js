@@ -4,9 +4,9 @@ let GameFeed = class {
         var arr = url.split("/");
 
         if (location.protocol !== 'https:') {
-            this.endpoint = "ws://" + arr[2] + "/game"
+            this.endpoint = "ws://" + arr[2] + "/updates"
         } else {
-            this.endpoint = "wss://" + arr[2] + "/game"
+            this.endpoint = "wss://" + arr[2] + "/updates"
         }
 
         this.playerName = '';

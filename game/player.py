@@ -5,9 +5,7 @@ from .deck import Card, CardSuit
 
 from typing import Set
 
-
-
-class Player:
+class Player: 
     def __init__(self, p_id: str, name: str, ws: websockets.protocol.WebSocketCommonProtocol):
         self.id = p_id
         self.cards: Set[Card] = set()

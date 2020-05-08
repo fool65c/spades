@@ -34,7 +34,7 @@
                 -moz-background-size: cover;
                 -o-background-size: cover;
                 background-size: cover;
-                height: 85vh;
+                height: 100%;
                 width: 100vw;
                 position: absolute;
             }
@@ -71,21 +71,29 @@
             }
 
             .game-play {
-                width: 100%;
                 border-style: ridge;
                 border-color: whitesmoke;
                 padding: 5px;
-                margin: 5px;
+                margin: 0px;
+                margin-top: 5px;
                 /* min-height: 160px; */
-                height: 276px;
-                max-width: 276px;
+                max-width: 266px;
+                max-height: 266px;
+                /* width: calc(100vw / 8 * 3 + 10px); */
+                /* width: calc(100vw / 7 * 1.2 * 3 + 10px); */
+                /* height: calc(100vw / 8 * 3 + 10px); */
+                /* height: calc(100vw / 7 * 1.2 * 3 + 10px); */
+                width: 266px;
+                height: 266px;
                 border-radius: 150px;
             }
 
             #player-bid-card {
                 width: auto;
-                margin-left: 50px;
-                margin-right: 50px;
+                /* margin-left: 50px; */
+                /* margin-right: 50px; */
+                height: auto;
+                margin: auto;
             }
 
             .active-hand {
@@ -93,13 +101,14 @@
             }
 
             .side-card {
-                padding-top: 91px;
+                padding-top: 95px;
                 padding-left: 0px;
                 padding-right: 0px;
             }
 
             .middle-card {
-                height: 110px;
+                height: calc((100vw / 8 * 3 + 10px) - 100vw / 7 * 1.2 / 2 - 10px);
+                max-height: 102px;
                 padding: 10px;
             }
 
@@ -355,7 +364,7 @@
         </div>
 
         <!-- Winner Modal -->
-        <div class="modal fade" id="winner" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="selectGameLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="winner" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="selectGameLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -366,7 +375,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
 
@@ -384,7 +393,7 @@
             <div class="toast-body"></div>
         </div>
 
-        <div style="position: absolute; height:100%; width: 100%">
+        <div style="position: absolute; height:100vh; width: 100%">
             <div class="container-fluid">
                 <div class="row justify-content-center player-hand">
                     <div class="player player1">player 1</div>
@@ -427,6 +436,13 @@
                                             </div>
                                         </p>
                                         <a href="#" onclick="placeBid()" class="btn btn-primary">Place Bid</a>
+                                    </div>
+                                </div>
+
+                                <div id="winner-card" class="card" style="display: none;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Winner</h5>
+                                        <p id="winningTeam" class="card-text"></p>
                                     </div>
                                 </div>
 
@@ -533,7 +549,8 @@
         }
 
         gameFeed.register('winner', function(data){
-            $('#winner').modal('show');
+            // $('#winner').modal('show');
+            $('#winner-card').show()
             $('.active-hand').empty();
             $('#winningTeam').html(data.winner);
             gameFeed.activeGame = false;
